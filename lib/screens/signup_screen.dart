@@ -155,6 +155,10 @@ class _SignupScreenState extends State<SignupScreen> {
                     if (_signupFormKey.currentState!.validate()) {
                       //Perfom Login Navigate to Homescreen
                     }
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => LoginScreen()),
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.deepPurple,
