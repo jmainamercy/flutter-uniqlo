@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'signup_screen.dart';
+import 'forgotpass_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -109,6 +110,28 @@ class _LoginScreenState extends State<LoginScreen> {
                 SizedBox(height: 16),
 
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ForgotpassScreen(),
+                          ),
+                        );
+                      },
+                      child: const Text(
+                        "Forgot Password",
+                        style: TextStyle(color: Colors.black),
+                      ),
+                    ),
+                  ],
+                ),
+
+                SizedBox(height: 20),
+
+                Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text('Not yet registered?'),
@@ -132,5 +155,12 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
   }
 }

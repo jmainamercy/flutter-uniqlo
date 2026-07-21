@@ -30,7 +30,20 @@ class _SignupScreenState extends State<SignupScreen> {
           child: Form(
             key: _signupFormKey,
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
+                Image.asset("assets/images/logo.png", width: 160, height: 160),
+
+                SizedBox(height: 24),
+
+                Text(
+                  'Create Your Account',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.center,
+                ),
+
+                SizedBox(height: 24),
+
                 TextFormField(
                   controller: _firstNameController,
                   decoration: InputDecoration(
@@ -110,6 +123,9 @@ class _SignupScreenState extends State<SignupScreen> {
                     if (value == null || value.isEmpty) {
                       return 'Enter valid paswword';
                     }
+                    if (value.length < 8) {
+                      return "Password needs to be 8 or more characters";
+                    }
                     return null;
                   },
                   obscureText: _hidePassword,
@@ -153,16 +169,15 @@ class _SignupScreenState extends State<SignupScreen> {
                 ElevatedButton(
                   onPressed: () {
                     if (_signupFormKey.currentState!.validate()) {
-                      //Perfom Login Navigate to Homescreen
+                      //Perfom Signup Navigate to Login
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => LoginScreen()),
+                      );
                     }
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => LoginScreen()),
-                    );
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.deepPurple,
-                    minimumSize: const Size(300, 50),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),
@@ -196,5 +211,15 @@ class _SignupScreenState extends State<SignupScreen> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _firstNameController.dispose();
+    _lastNameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
+    super.dispose();
   }
 }
