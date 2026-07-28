@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:uniqlo/screens/home_screen.dart';
 import 'package:uniqlo/screens/login_screen.dart';
 import 'package:uniqlo/screens/signup_screen.dart';
 import 'package:uniqlo/screens/forgotpass_screen.dart';
@@ -13,7 +14,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: const LoginScreen(),
+      home: const HomeScreen(),
       routes: {
         '/login': (context) => const LoginScreen(),
         '/signup': (context) => const SignupScreen(),

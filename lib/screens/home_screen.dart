@@ -1,0 +1,74 @@
+import 'package:flutter/material.dart';
+
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
+  @override
+  State<StatefulWidget> createState() {
+    return _HomeScreenState();
+  }
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  int _selectedIndex = 0;
+  String _tabTitle = "Home";
+  final List<Widget> _tabs = [_HomeTab(), _OrdersTab(), _ProfileTab()];
+  final List<String> _titles = ["Home", "Orders", "Profile"];
+
+  void _onTabClicked(int index) {
+    setState(() {
+      _selectedIndex = index;
+      _tabTitle = _titles[index];
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text(_tabTitle)),
+      body: IndexedStack(index: _selectedIndex, children: _tabs),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,
+        onTap: _onTabClicked,
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home_outlined),
+            label: "Home",
+            activeIcon: Icon(Icons.home),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.shopping_bag_outlined),
+            label: "Orders",
+            activeIcon: Icon(Icons.shopping_bag),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person_2_outlined),
+            label: "Profile",
+            activeIcon: Icon(Icons.person_2),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _HomeTab extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(child: Text("Home"));
+  }
+}
+
+class _OrdersTab extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(child: Text("Orders"));
+  }
+}
+
+class _ProfileTab extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(child: Text("Profile"));
+  }
+}
