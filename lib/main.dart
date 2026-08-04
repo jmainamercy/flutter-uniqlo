@@ -14,6 +14,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(fontFamily: "Mulish"),
       home: const HomeScreen(),
       routes: {
         '/login': (context) => const LoginScreen(),
