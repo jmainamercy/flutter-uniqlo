@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:uniqlo/model/cart.dart';
 import 'package:uniqlo/model/product.dart';
 
 class ProductCard extends StatelessWidget {
@@ -27,8 +29,25 @@ class ProductCard extends StatelessWidget {
                   SizedBox(height: 8),
                   Text(product.description),
                   SizedBox(height: 8),
-                  Text("KES ${product.price}"),
-                  SizedBox(height: 8),
+
+                  Row(
+                    children: [
+                      Text("KES ${product.price}"),
+                      Spacer(flex: 1),
+                      IconButton(
+                        onPressed: () {
+                          Provider.of<CartModel>(
+                            context,
+                            listen: false,
+                          ).addItem(product);
+                        },
+                        icon: Icon(
+                          Icons.shopping_cart_checkout_outlined,
+                          size: 20,
+                        ),
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),

@@ -11,7 +11,7 @@ final List<Product> dummyProducts = [
   Product(
     'Wireless Headphones',
     'Over ear headphones with noise cancelling',
-    31000.0,
+    3100.0,
     'https://picsum.photos/seed/car/300/300',
   ),
   Product(
@@ -29,7 +29,7 @@ final List<Product> dummyProducts = [
   Product(
     'Nothing phone 2',
     'Relentlessly excelsior, Android Samsung 32',
-    64000.0,
+    6400.0,
     'https://picsum.photos/seed/smartphone/300/300',
   ),
   Product(
