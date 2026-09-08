@@ -4,6 +4,7 @@ import 'package:uniqlo/model/cart.dart';
 import 'package:uniqlo/model/product.dart';
 import 'package:uniqlo/model/product_card.dart';
 import 'package:uniqlo/model/cart_card.dart';
+import 'package:uniqlo/viewmodel/view_model.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -136,6 +137,21 @@ class _OrdersTab extends StatelessWidget {
 class _ProfileTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text("Profile"));
+    return Center(
+      child: Column(
+        children: [
+          Consumer<AuthViewmodel>(
+            builder: (context, authViewModel, child) {
+              return ElevatedButton(
+                onPressed: () {
+                  authViewModel.logout();
+                },
+                child: const Text("log out"),
+              );
+            },
+          ),
+        ],
+      ),
+    );
   }
 }

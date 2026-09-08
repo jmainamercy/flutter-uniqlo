@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:uniqlo/screens/home_screen.dart';
+import 'package:uniqlo/viewmodel/view_model.dart';
 import 'signup_screen.dart';
 import 'forgotpass_screen.dart';
 
@@ -13,7 +16,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final _loginFormKey = GlobalKey<FormState>();
-  final _emailController = TextEditingController();
+  final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _hidePassword = true;
 
@@ -41,23 +44,19 @@ class _LoginScreenState extends State<LoginScreen> {
                 SizedBox(height: 30),
 
                 TextFormField(
-                  controller: _emailController,
+                  controller: _usernameController,
                   decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.email_outlined),
-                    labelText: 'Email',
+                    prefixIcon: Icon(Icons.person_2_outlined),
+                    labelText: 'Username',
                     border: OutlineInputBorder(),
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Enter your email';
-                    }
-
-                    if (!value.contains('@')) {
-                      return 'Enter a valid email';
+                      return 'Enter your username';
                     }
                     return null;
                   },
-                  keyboardType: TextInputType.emailAddress,
+                  keyboardType: TextInputType.name,
                 ),
 
                 SizedBox(height: 30),
@@ -92,19 +91,50 @@ class _LoginScreenState extends State<LoginScreen> {
 
                 SizedBox(height: 30),
 
-                ElevatedButton(
-                  onPressed: () {
-                    if (_loginFormKey.currentState!.validate()) {
-                      //Perfom Login Navigate to Homescreen
-                    }
+                Consumer<AuthViewmodel>(
+                  builder: (context, authViewModel, child) {
+                    return ElevatedButton(
+                      onPressed: () async {
+                        if (_loginFormKey.currentState!.validate()) {
+                          //Perfom Login Navigate to Homescreen
+                          var success = await authViewModel.login(
+                            _usernameController.text.trim(),
+                            _passwordController.text,
+                          );
+                          if (!context.mounted) return;
+                          if (success) {
+                            //navigate to home
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(builder: (_) => HomeScreen()),
+                            );
+                          } else {
+                            //display error message
+                            SnackBar snackBar = SnackBar(
+                              content: Text(
+                                authViewModel.errorMessage ?? "login failed",
+                              ),
+                            );
+                            ScaffoldMessenger.of(
+                              context,
+                            ).showSnackBar(snackBar);
+                          }
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.deepPurple,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      child: authViewModel.isLoading
+                          ? CircularProgressIndicator(color: Colors.white)
+                          : Text(
+                              'Login',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                    );
                   },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.deepPurple,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                  child: Text('Login', style: TextStyle(color: Colors.white)),
                 ),
 
                 SizedBox(height: 16),
@@ -159,7 +189,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   void dispose() {
-    _emailController.dispose();
+    _usernameController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
